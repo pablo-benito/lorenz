@@ -109,5 +109,24 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, canvas_height);
+  let fs = fullscreen();
+  if (fs) {
+    document.getElementById('head').style.display = 'none';
+    document.getElementById('bottom').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+    resizeCanvas(windowWidth, windowHeight);
+
+  } else {
+    document.getElementById('head').style.display = 'block';
+    document.getElementById('bottom').style.display = 'block';
+    document.body.style.overflow = 'auto';
+    resizeCanvas(windowWidth, canvas_height);
+
+  }
+  
+}
+
+function doubleClicked() {
+  let fs = fullscreen();
+  fullscreen(!fs);
 }
