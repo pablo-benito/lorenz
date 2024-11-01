@@ -3,13 +3,15 @@ let lastMouseX = 0;
 let lastMouseY = 0;
 let camX = 1;
 let camY = 0;
+let canvas_height = 500;
+MAX_POINTS = 2000;
+
 
 class Trajectory {
   a = 10;
   b = 30;
   c = 8.0 / 3.0;
   dt = 0.01;
-  MAX_POINTS = 2000
 
   constructor(x, y, z, hue) {
     this.x = x;
@@ -57,8 +59,8 @@ class Trajectory {
 
     pop();
 
-    if (this.points.length > this.MAX_POINTS) {
-      this.points = this.points.slice(this.points.length - this.MAX_POINTS, this.points.length)
+    if (this.points.length > MAX_POINTS) {
+      this.points = this.points.slice(this.points.length - MAX_POINTS, this.points.length)
     }
 
   }
@@ -66,7 +68,7 @@ class Trajectory {
 
 
 function setup() {
-  var canvas = createCanvas(windowWidth, 600, WEBGL);
+  var canvas = createCanvas(windowWidth, canvas_height, WEBGL);
   canvas.parent("p5jsContainer");
 
   colorMode(HSB, 360, 100, 100, 100);
@@ -79,6 +81,13 @@ function setup() {
   t2 = new Trajectory(0.01 + 0.2*random(-1, 1), 0, 0, t2_color)
   noFill();
 
+  // KUDOS: https://www.geeksforgeeks.org/how-to-detect-whether-the-website-is-being-opened-in-a-mobile-device-or-a-desktop-in-javascript/
+  let regexp = /android|iphone|kindle|ipad/i;
+  let isMobileDevice = regexp.test(navigator.userAgent);
+
+  if (isMobileDevice) {
+    MAX_POINTS = 1000;
+  }
 }
 
 function draw() {
@@ -97,4 +106,8 @@ function draw() {
 
   orbitControl();
 
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, canvas_height);
 }
