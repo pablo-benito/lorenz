@@ -1,4 +1,4 @@
-let zoom = 500; 
+let zoom = 500;
 let lastMouseX = 0;
 let lastMouseY = 0;
 let camX = 1;
@@ -8,6 +8,9 @@ MAX_POINTS = 1000;
 // KUDOS: https://www.geeksforgeeks.org/how-to-detect-whether-the-website-is-being-opened-in-a-mobile-device-or-a-desktop-in-javascript/
 let regexp = /android|iphone|kindle|ipad/i;
 let isMobileDevice = regexp.test(navigator.userAgent);
+function preload() {
+  font = loadFont('assets/Inconsolata.otf');
+}
 
 class Trajectory {
   a = 10;
@@ -44,20 +47,20 @@ class Trajectory {
       stroke(hu, 100, 100, 100); 
       setAttributes('antialias', true);
 
-      beginShape();
+    beginShape();
 
-        for (let i = 1; i < this.points.length; i++) {
-          let v1 = this.points[i - 1].pos;  
-          let v2 = this.points[i].pos;  
-          vertex(v1.x * 10, v1.y * 10, v1.z * 10); 
-          vertex(v2.x * 10, v2.y * 10, v2.z * 10);
-        }
+    for (let i = 1; i < this.points.length; i++) {
+      let v1 = this.points[i - 1].pos;
+      let v2 = this.points[i].pos;
+      vertex(v1.x * 10, v1.y * 10, v1.z * 10);
+      vertex(v2.x * 10, v2.y * 10, v2.z * 10);
+    }
 
-      endShape()
-      let pp = this.points[this.points.length - 1].pos;
-      translate(pp.x * 10, pp.y * 10, pp.z * 10); 
+    endShape()
+    let pp = this.points[this.points.length - 1].pos;
+    translate(pp.x * 10, pp.y * 10, pp.z * 10);
 
-      sphere(5);
+    sphere(5);
 
     pop();
 
@@ -114,24 +117,69 @@ function draw() {
 
   translate(camX, camY, -zoom);
 
+
   let angle = frameCount * 0.01;
   rotateX(angle);
   rotateY(angle);
   rotateZ(angle);
-  
+
   t1.draw()
   t2.draw()
 
+  textFont(font);
+  textSize(36);
+
+  strokeWeight(3)
+  stroke('red')
+  line(0, 0, 0, 75, 0, 0);
+  push()    
+    translate(75,0,0)
+    fill('red')
+    text('X', 20, 20)
+    rotateZ(-PI/2)
+    cone(5, 25)
+  pop()
+
+  stroke('lightgreen')
+  line(0, 0, 0, 0, 75, 0);
+  push()
+    translate(0, 75, 0);
+    fill('lightgreen')
+    text('Y', 20, 20)
+    rotateY(PI/2)
+    cone(5, 25)
+
+  pop()
+  stroke('blue')
+  line(0, 0, 0, 0, 0, 75);
+  push()    
+    translate(0, 0, 75)
+    fill('blue')
+    text('Z', 20, 20)
+    rotateX(PI/2)        
+    cone(5, 25)
+
+  pop()
+  noStroke();
+
+
+
   orbitControl();
+
+  fill('lightgrey');
+
+  text('The Lorenz system', 50, 50);
+  noFill();
+
 
 }
 
 function windowResized() {
   let fs = fullscreen();
   if (fs) {
-    document.getElementById('head').style.display = 'none';
-    document.getElementById('bottom').style.display = 'none';
-    document.body.style.overflow = 'hidden';
+  document.getElementById('head').style.display = 'none';
+  document.getElementById('bottom').style.display = 'none';
+  document.body.style.overflow = 'hidden';
     resizeCanvas(windowWidth, windowHeight);
 
   } else {
@@ -141,7 +189,7 @@ function windowResized() {
 
     resizeCanvas(windowWidth, canvas_height);
 
-  }
-  
+}
+
 }
 
