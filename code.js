@@ -4,8 +4,10 @@ let lastMouseY = 0;
 let camX = 1;
 let camY = 0;
 let canvas_height = 500;
-MAX_POINTS = 2000;
-
+MAX_POINTS = 1000;
+// KUDOS: https://www.geeksforgeeks.org/how-to-detect-whether-the-website-is-being-opened-in-a-mobile-device-or-a-desktop-in-javascript/
+let regexp = /android|iphone|kindle|ipad/i;
+let isMobileDevice = regexp.test(navigator.userAgent);
 
 class Trajectory {
   a = 10;
@@ -39,7 +41,7 @@ class Trajectory {
     push()
 
       let hu = this.hue;      
-      stroke(hu, 255, 255, 100); 
+      stroke(hu, 100, 100, 100); 
       setAttributes('antialias', true);
 
       beginShape();
@@ -66,6 +68,19 @@ class Trajectory {
   }
 }
 
+function toggle_fullscreen() {
+  let fs = fullscreen();
+  fullscreen(!fs);
+  if (fs) {
+    document.getElementById('head').style.display = 'none';
+    document.getElementById('bottom').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.getElementById('head').style.display = 'block';
+    document.getElementById('bottom').style.display = 'block';
+    document.body.style.overflow = 'auto';
+  }
+}
 
 function setup() {
   var canvas = createCanvas(windowWidth, canvas_height, WEBGL);
@@ -81,13 +96,16 @@ function setup() {
   t2 = new Trajectory(0.01 + 0.2*random(-1, 1), 0, 0, t2_color)
   noFill();
 
-  // KUDOS: https://www.geeksforgeeks.org/how-to-detect-whether-the-website-is-being-opened-in-a-mobile-device-or-a-desktop-in-javascript/
-  let regexp = /android|iphone|kindle|ipad/i;
-  let isMobileDevice = regexp.test(navigator.userAgent);
+  let button = createButton('Toggle fullscreen');
 
-  if (isMobileDevice) {
-    MAX_POINTS = 1000;
-  }
+  button.parent('p5jsContainer');
+  button.class('button');
+  button.style('top', '5px');
+  button.style('left', '5px');
+
+  // Call repaint() when the button is pressed.
+  button.mousePressed(toggle_fullscreen);
+
 }
 
 function draw() {
@@ -120,13 +138,10 @@ function windowResized() {
     document.getElementById('head').style.display = 'block';
     document.getElementById('bottom').style.display = 'block';
     document.body.style.overflow = 'auto';
+
     resizeCanvas(windowWidth, canvas_height);
 
   }
   
 }
 
-function doubleClicked() {
-  let fs = fullscreen();
-  fullscreen(!fs);
-}

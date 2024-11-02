@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-  <title>Atractor de Lorenz</title>
+  <title>Lorenz Attractor and the butterfly effect</title>
   <style>
     body,
     html {
@@ -13,19 +13,33 @@
       text-align: center;
     }
 
-    
-    
+    .button {
+      background-color: #04AA6D;
+      background-color: lightgreen;
+      border: none;
+      color: black;
+      box-shadow: 2px 2px 2px 1px #04AA6D;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 5px;
+      position: absolute;
+    }
   </style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
   <script src="code.js"></script>
 </head>
 
 <body>
-    <h2 id="head"><code>Lorenz Attractor and the butterfly effect</code></h2>
-    <div id='p5jsContainer' style="margin: 0 0"></div>
+  <h2 id="head"><code>Lorenz Attractor and the butterfly effect</code></h2>
+  <div id='p5jsContainer' style="margin: 0 0; position: relative; display: block"></div>
 
-    <code id="bottom">
+  <code id="bottom">
        <a href="https://en.wikipedia.org/wiki/Lorenz_system" target="_blank">Lorenz system</a>,
           made with <a href="http://p5js.org" target="_blank">p5js</a><br/>
               <a href="https://github.com/pablo-benito/" target="_blank">Pablo Benito</a><br/>
